@@ -58,6 +58,7 @@ db.once('open', () => {
  * plug all routes here
  */
 require('./routes/auth.routes')(app);
+require('./routes/address.routes')(app);
 app.listen(PORT, () => {
   console.log(
     `application connected to server successfully at port number ${PORT}`
