@@ -1,5 +1,7 @@
 const USER = require('../models/user.models');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const authConfig = require('../config/auth.config');
 
 const validateUser = async (req, res, next) => {
   try {
@@ -22,4 +24,35 @@ const validateUser = async (req, res, next) => {
     });
   }
 };
-module.exports = { validateUser };
+const isAuthanticate = async (req, res, next) => {
+  try {
+    const token = req.headers['x-access-token'];
+    if (!token) {
+      res.status().send({
+        message: 'No token provided',
+      });
+    }
+    /**
+     * now verify accesstoken
+     */
+    jwt.verify(token, authConfig.SECRET_KEY, (err, decode) => {
+      if (err) {
+        res.status(401).send({
+          message: 'Please login first to access this endpoint!',
+        });
+      }
+      /**
+       * if token  is valid read
+       * the userId from token
+       * and set it to request object
+       */
+      req.userName = decode.id;
+      next();
+    });
+  } catch (e) {
+    res.status(500).send({
+      message: 'something went wrong ',
+    });
+  }
+};
+module.exports = { validateUser, isAuthanticate };
