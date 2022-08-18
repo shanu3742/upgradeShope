@@ -67,6 +67,11 @@ const userSchema = new mongoose.Schema({
       isAsync: false,
     },
   },
+  // add address field to make database bidirectional
+  address: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'address',
+  },
 });
 
 module.exports = mongoose.model('USER', userSchema);
