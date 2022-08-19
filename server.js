@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const user = require('./models/user.models');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
+const PRODUCT = require('./models/product.model');
 
 /**
  * plug in middleware
@@ -27,7 +28,7 @@ const db = mongoose.connection;
 const initApp = async () => {
   try {
     let adminUser = await user.find({});
-    console.log(adminUser);
+    // console.log(adminUser);
     if (adminUser.length === 0) {
       let defaultUser = {
         firstName: 'upgrade',
@@ -40,7 +41,21 @@ const initApp = async () => {
         password: bcrypt.hashSync('password', 8),
       };
       let savedUser = await user.create(defaultUser);
-      console.log(savedUser);
+      if (savedUser) {
+        let defaultProduct = {
+          name: 'automotive product',
+          category: 'Automotive',
+          price: 1000,
+          description: 'This is a cool automotive product',
+          manufacturer: 'Automotive manufacturer',
+          availableItems: 20,
+          imageUrl: 'image url',
+          createdBy: savedUser._id,
+        };
+        const savedProduct = await PRODUCT.create(defaultProduct);
+
+        console.log(savedProduct);
+      }
     }
   } catch (e) {
     console.log(e);
@@ -59,6 +74,7 @@ db.once('open', () => {
  */
 require('./routes/auth.routes')(app);
 require('./routes/address.routes')(app);
+require('./routes/product.routes')(app);
 app.listen(PORT, () => {
   console.log(
     `application connected to server successfully at port number ${PORT}`

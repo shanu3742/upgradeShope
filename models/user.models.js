@@ -72,6 +72,14 @@ const userSchema = new mongoose.Schema({
     type: [mongoose.SchemaTypes.ObjectId],
     ref: 'address',
   },
+  createProduct: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'products',
+  },
+  updateProduct: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'products',
+  },
 });
 
 module.exports = mongoose.model('USER', userSchema);
