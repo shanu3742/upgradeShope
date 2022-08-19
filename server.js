@@ -75,6 +75,7 @@ db.once('open', () => {
 require('./routes/auth.routes')(app);
 require('./routes/address.routes')(app);
 require('./routes/product.routes')(app);
+require('./routes/order.routes')(app);
 app.listen(PORT, () => {
   console.log(
     `application connected to server successfully at port number ${PORT}`
