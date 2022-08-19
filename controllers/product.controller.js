@@ -1,5 +1,6 @@
 const USER = require('../models/user.models');
 const PRODUCT = require('../models/product.model');
+const { uniqueObject } = require('../helper/uniqueObject');
 /**
  *
  * check user is login or not
@@ -61,7 +62,8 @@ exports.getProductCategories = async (req, res) => {
     if (!product) {
       res.status(200).send([]);
     }
-    let productByCategories = product.map((e) => e.category);
+
+    let productByCategories = uniqueObject(product);
     res.status(200).send(productByCategories);
   } catch (e) {
     res.status(500).send({
