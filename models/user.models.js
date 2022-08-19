@@ -72,6 +72,11 @@ const userSchema = new mongoose.Schema({
     type: [mongoose.SchemaTypes.ObjectId],
     ref: 'address',
   },
+  // add all order , ordered by p particular user
+  orderList: {
+    type: [mongoose.SchemaType.ObjectId],
+    ref: 'orders',
+  },
   createProduct: {
     type: [mongoose.SchemaTypes.ObjectId],
     ref: 'products',

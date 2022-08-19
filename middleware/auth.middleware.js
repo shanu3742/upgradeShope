@@ -71,4 +71,20 @@ const isAdmin = async (req, res, next) => {
     });
   }
 };
-module.exports = { validateUser, isAuthanticate, isAdmin };
+const isUser = async (req, res, next) => {
+  try {
+    let userName = req.userName;
+    let userData = await USER.findOne({ userName: userName });
+    if (userData.role !== 'USER') {
+      res.status(403).send({
+        message: 'You are not authorised to access this endpoint!',
+      });
+    }
+    next();
+  } catch (e) {
+    res.status(500).send({
+      message: 'something went wrong ',
+    });
+  }
+};
+module.exports = { validateUser, isAuthanticate, isAdmin, isUser };
